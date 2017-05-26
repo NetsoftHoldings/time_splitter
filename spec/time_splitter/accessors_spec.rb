@@ -121,6 +121,22 @@ describe TimeSplitter::Accessors do
         end
       end
 
+      describe "#starts_at_sec" do
+        it "returns nil" do
+          expect(model.starts_at_sec).to be_nil
+        end
+
+        it "sets the minute of #starts_at" do
+          model.starts_at_sec = 55
+          expect(model.starts_at).to eq Time.new(0, 1, 1, 0, 0, 55, '+00:00')
+        end
+
+        it "is nil if the string is empty" do
+          model.starts_at_sec = ""
+          expect(model.starts_at).to be_nil
+        end
+      end
+
       describe '#starts_at_time' do
         it 'returns nil' do
           expect(model.starts_at_time).to be_nil
@@ -134,6 +150,11 @@ describe TimeSplitter::Accessors do
         it 'sets the hour and minute of #starts_at' do
           model.starts_at_time = '08:33'
           expect(model.starts_at).to eq Time.new(0, 1, 1, 8, 33, 0, '+00:00')
+        end
+
+        it 'sets the hour, minute, and second of #starts_at' do
+          model.starts_at_time = '08:33:44'
+          expect(model.starts_at).to eq Time.new(0, 1, 1, 8, 33, 44, '+00:00')
         end
 
         it 'is nil if the string is empty' do

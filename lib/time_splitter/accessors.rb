@@ -31,12 +31,17 @@ module TimeSplitter
 
         define_method("#{attr}_hour=") do |hour|
           return unless hour.present?
-          self.send("#{attr}=", self.send("#{attr}_or_new").change(hour: hour, min: self.send("#{attr}_or_new").min))
+          self.send("#{attr}=", self.send("#{attr}_or_new").change(hour: hour, min: self.send("#{attr}_or_new").min, sec: self.send("#{attr}_or_new").sec))
         end
 
         define_method("#{attr}_min=") do |min|
           return unless min.present?
           self.send("#{attr}=", self.send("#{attr}_or_new").change(min: min))
+        end
+
+        define_method("#{attr}_sec=") do |min|
+          return unless min.present?
+          self.send("#{attr}=", self.send("#{attr}_or_new").change(sec: min))
         end
 
         define_method("#{attr}_time=") do |time|
@@ -49,7 +54,7 @@ module TimeSplitter
               time = Time.parse(time)
             end
           end
-          self.send("#{attr}=", self.send("#{attr}_or_new").change(hour: time.hour, min: time.min))
+          self.send("#{attr}=", self.send("#{attr}_or_new").change(hour: time.hour, min: time.min, sec: time.sec))
         end
 
         # Readers
@@ -64,6 +69,10 @@ module TimeSplitter
 
         define_method("#{attr}_min") do
           self.send(attr).try :min
+        end
+
+        define_method("#{attr}_sec") do
+          self.send(attr).try :sec
         end
 
         define_method("#{attr}_time") do
